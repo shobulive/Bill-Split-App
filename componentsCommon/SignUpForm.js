@@ -15,6 +15,7 @@ import {
   Label
 } from "native-base";
 import { Field, reduxForm } from "redux-form";
+let isFocused = false;
 const validate = values => {
   const error = {};
   error.email = "";
@@ -26,35 +27,37 @@ const validate = values => {
   let name = values.name;
   let reName = /^[A-z]+$/;
   let reEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (values.email === undefined) {
-    email = "";
-  }
-  if (values.confirmpassword === undefined) {
-    passwoconfirmpasswordrd = "";
-  }
-  if (values.phone === undefined) {
-    phone = "";
-  }
-  if (values.name === undefined) {
-    name = "";
-  }
-  if (values.password === undefined) {
-    password = "";
-  }
-  if (!reEmail.test(email)) {
-    error.email = "Invalid Email";
-  }
-  if (password === "") {
-    error.password = "Required";
-  }
-  if (!reName.test(name)) {
-    error.name = "Invalid Name";
-  }
-  if (phone.length !== 10) {
-    error.phone = "Invalid Phone Number";
-  }
-  if (password !== "" && confirmpassword !== password) {
-    error.confirmpassword = "Not Matching";
+  if (isFocused) {
+    if (values.email === undefined) {
+      email = "";
+    }
+    if (values.confirmpassword === undefined) {
+      passwoconfirmpasswordrd = "";
+    }
+    if (values.phone === undefined) {
+      phone = "";
+    }
+    if (values.name === undefined) {
+      name = "";
+    }
+    if (values.password === undefined) {
+      password = "";
+    }
+    if (!reEmail.test(email)) {
+      error.email = "Invalid Email";
+    }
+    if (password === "") {
+      error.password = "Required";
+    }
+    if (!reName.test(name)) {
+      error.name = "Invalid Name";
+    }
+    if (phone.length !== 10) {
+      error.phone = "Invalid Phone Number";
+    }
+    if (password !== "" && confirmpassword !== password) {
+      error.confirmpassword = "Not Matching";
+    }
   }
   return error;
 };
@@ -99,6 +102,9 @@ class LoginForm extends Component {
           {...input}
           placeholder={currlabel}
           secureTextEntry={secureInput}
+          onFocus={() => {
+            isFocused = true;
+          }}
         />
         {hasError ? <Text style={{ color: "red" }}>{error}</Text> : <Text />}
       </Item>
