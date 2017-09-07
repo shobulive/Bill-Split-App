@@ -78,7 +78,7 @@ export default class SignUp extends Component {
                     .push({
                       Name: this.props.newUser.values.name,
                       Password: this.props.newUser.values.password,
-                      Phone: this.props.newUser.values.phone,
+                      Phone: parseInt(this.props.newUser.values.phone),
                       Email: this.props.newUser.values.email,
                       UpAmt: 0,
                       DownAmt: 0

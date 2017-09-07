@@ -100,10 +100,13 @@ export default class AddTransaction extends React.PureComponent {
       for (let j = 0; j < users.length; j++) {
         if (MembersInvoled[i] == users[j].Phone) {
           if (payer == users[j].Phone) {
+            users[j].UpAmt = parseInt(users[j].UpAmt);
             users[j].UpAmt +=
               this.Amt / MembersInvoled.length * (MembersInvoled.length - 1);
+
             users[j].UpAmt = users[j].UpAmt.toFixed(1);
           } else {
+            users[j].DownAmt = parseInt(users[j].DownAmt);
             users[j].DownAmt += this.Amt / MembersInvoled.length;
             users[j].DownAmt = users[j].DownAmt.toFixed(1);
           }

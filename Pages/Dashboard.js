@@ -229,11 +229,11 @@ export default class Dashboard extends Component {
   }
   renderGroups() {
     groups = [];
-    if (this.props.Groups !== undefined) {
+    if (this.props.Groups.groups) {
       let fetchedGroups = Object.values(this.props.Groups.groups);
       let fetchedGroupsKey = Object.keys(this.props.Groups.groups);
       for (let group in fetchedGroups) {
-        if (fetchedGroups[group] !== null) {
+        if (fetchedGroups[group]) {
           let MemberID = Object.values(fetchedGroups[group].Members);
           for (let mid in MemberID) {
             if (MemberID[mid] === this.props.CurrentUser.User.Phone) {
@@ -271,7 +271,7 @@ export default class Dashboard extends Component {
                             .child("Groups")
                             .child(item.key)
                             .remove();
-                          if (this.props.Transactions != null) {
+                          if (this.props.Transactions) {
                             let fetchedTransactions = Object.values(
                               this.props.Transactions
                             );
@@ -283,7 +283,7 @@ export default class Dashboard extends Component {
                               i < fetchedTransactions.length;
                               i++
                             ) {
-                              if (fetchedTransactions[i] !== null)
+                              if (fetchedTransactions[i])
                                 if (fetchedTransactions[i].GID == item.key) {
                                   await firebase
                                     .database()
@@ -294,61 +294,90 @@ export default class Dashboard extends Component {
                                     .remove();
                                 }
                             }
-                          }
-                          let users = Object.values(this.props.Users);
-                          let userskeys = Object.keys(this.props.Users);
-                          let toBechangedUserKeys;
-                          for (let i = 0; i < item.value.Members.length; i++) {
-                            for (let j = 0; j < users.length; i++) {
-                              if (users[i])
-                                if (users[i].Phone == item.value.Members[i]) {
-                                  toBechangedUserKeys.push(userskeys[i]);
-                                }
+
+                            let users = Object.values(this.props.Users);
+                            let userskeys = Object.keys(this.props.Users);
+                            let toBechangedUserKeys = [];
+                            for (
+                              let i = 0;
+                              i < item.value.Members.length;
+                              i++
+                            ) {
+                              for (let j = 0; j < users.length; j++) {
+                                if (users[j])
+                                  if (users[j].Phone == item.value.Members[i]) {
+                                    toBechangedUserKeys.push(userskeys[j]);
+                                  }
+                              }
                             }
-                          }
-                          for (let i = 0; i < toBechangedUserKeys.length; i++) {
-                            for (let j = 0; j < userskeys.length; i++) {
-                              if (userskeys[j])
-                                if (userskeys[j] == toBechangedUserKeys[i]) {
-                                  for (let k = 0; k < final.length; k++) {
-                                    if (users[j].Phone == final[k].key) {
-                                      if (final[k].value < 0) {
-                                        users[j].DownAmt += final[k].value;
-                                      } else users[j].UpAmt -= final[k].value;
+                            for (
+                              let i = 0;
+                              i < toBechangedUserKeys.length;
+                              i++
+                            ) {
+                              for (let j = 0; j < userskeys.length; j++) {
+                                if (userskeys[j]) {
+                                  currentGroup = item;
+                                  this.getCurrentGroupInfo();
+                                  if (userskeys[j] == toBechangedUserKeys[i]) {
+                                    for (let k = 0; k < final.length; k++) {
+                                      if (users[j].Phone == final[k].key) {
+                                        if (final[k].value > 0) {
+                                          users[j].DownAmt = parseInt(
+                                            users[j].DownAmt
+                                          );
+                                          users[j].DownAmt -= final[k].value;
+                                        } else {
+                                          users[j].DownAmt = parseInt(
+                                            users[j].DownAmt
+                                          );
+                                          users[j].UpAmt += final[k].value;
+                                        }
+                                        await firebase
+                                          .database()
+                                          .ref()
+                                          .child("Main")
+                                          .child("Users")
+                                          .child(userskeys[j])
+                                          .update(users[j]);
+                                      }
                                     }
                                   }
-                                  await firebase
-                                    .database()
-                                    .ref()
-                                    .child("Main")
-                                    .child("Users")
-                                    .child(userskeys[j])
-                                    .update(users[i]);
                                 }
+                              }
                             }
-                          }
-                          let ModifiedCurrentUser;
-
-                          for (let i = 0; i < final.length; i++) {
-                            if (final[i].value < 0) {
-                              this.props.CurrentUser.User.DownAmt +=
-                                final[i].value;
-                            } else {
-                              this.props.CurrentUser.User.UpAmt -=
-                                final[i].value;
+                            for (let i = 0; i < final.length; i++) {
+                              if (final[i].value < 0) {
+                                this.props.CurrentUser.User.DownAmt = parseInt(
+                                  this.props.CurrentUser.User.DownAmt
+                                );
+                                this.props.CurrentUser.User.DownAmt +=
+                                  final[i].value;
+                              } else {
+                                this.props.CurrentUser.User.UpAmt = parseInt(
+                                  this.props.CurrentUser.User.UpAmt
+                                );
+                                this.props.CurrentUser.User.UpAmt -=
+                                  final[i].value;
+                              }
                             }
+                            let CurrentUserKey;
+                            for (let z = 0; z < users.length; z++) {
+                              if (
+                                users[z].Phone ==
+                                this.props.CurrentUser.User.Phone
+                              ) {
+                                CurrentUserKey = userskeys[z];
+                              }
+                            }
+                            await firebase
+                              .database()
+                              .ref()
+                              .child("Main")
+                              .child("Users")
+                              .child(CurrentUserKey)
+                              .update(this.props.CurrentUser.User);
                           }
-                          await firebase
-                            .database()
-                            .ref()
-                            .child("Main")
-                            .child("Users")
-                            .child(
-                              userskeys(
-                                users.indexOf(this.props.CurrentUser.User)
-                              )
-                            )
-                            .update(this.props.CurrentUser.User);
                         }
                         fetchTransaction(store.dispatch);
                         fetchGroups(store.dispatch);
@@ -415,7 +444,7 @@ export default class Dashboard extends Component {
     });
     const hw = this.state.scrollY.interpolate({
       inputRange: [0, 100],
-      outputRange: [100, 55],
+      outputRange: [80, 55],
       extrapolate: "clamp"
     });
     const iRadiius = this.state.scrollY.interpolate({
@@ -435,7 +464,7 @@ export default class Dashboard extends Component {
     });
     const ImgMoveVert = this.state.scrollY.interpolate({
       inputRange: [0, 10],
-      outputRange: ["3%", ".3%"],
+      outputRange: ["1%", ".3%"],
       extrapolate: "clamp"
     });
     const opacity = this.state.scrollY.interpolate({
@@ -565,27 +594,31 @@ export default class Dashboard extends Component {
                         justifyContent: "center"
                       }}
                     >
-                      <Animated.Text
-                        style={{
-                          color: "red",
-                          fontSize: 26,
-                          padding: "2.5%",
-                          opacity: opacity
-                        }}
-                      >
-                        &#x25BC;Rs.{this.props.CurrentUser.User.DownAmt}
-                      </Animated.Text>
-                      <Animated.Text
-                        style={{
-                          color: "green",
-                          fontSize: 26,
-                          padding: "2.5%",
-                          paddingBottom: "2.5%",
-                          opacity: opacity
-                        }}
-                      >
-                        &#x25B2;Rs.{this.props.CurrentUser.User.UpAmt}
-                      </Animated.Text>
+                      <Left>
+                        <Animated.Text
+                          style={{
+                            color: "red",
+                            fontSize: 22,
+                            padding: "2.5%",
+                            opacity: opacity
+                          }}
+                        >
+                          &#x25BC;Rs.{this.props.CurrentUser.User.DownAmt}
+                        </Animated.Text>
+                      </Left>
+                      <Right>
+                        <Animated.Text
+                          style={{
+                            color: "green",
+                            fontSize: 22,
+                            padding: "2.5%",
+                            paddingBottom: "2.5%",
+                            opacity: opacity
+                          }}
+                        >
+                          &#x25B2;Rs.{this.props.CurrentUser.User.UpAmt}
+                        </Animated.Text>
+                      </Right>
                     </View>
                   </Body>
                 </CardItem>
