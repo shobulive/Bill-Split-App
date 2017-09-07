@@ -51,8 +51,16 @@ export default class Login extends Component {
     if (this.props.Groups) {
       for (let i in Object.keys(this.props.Groups)) {
         if (Object.keys(this.props.Groups)[i] === this.props.CurrentGroup) {
-          console.log(i);
           return this.props.Groups[Object.keys(this.props.Groups)[i]].Name;
+        }
+      }
+    }
+  }
+  findGroup() {
+    if (this.props.Groups) {
+      for (let i in Object.keys(this.props.Groups)) {
+        if (Object.keys(this.props.Groups)[i] == this.props.CurrentGroup) {
+          return this.props.Groups[Object.keys(this.props.Groups)[i]];
         }
       }
     }
@@ -268,6 +276,18 @@ export default class Login extends Component {
           visibility="visible"
         />
         <Content padder style={{ backgroundColor: "white" }}>
+          <Text
+            note
+            style={{
+              alignSelf: "center",
+              borderColor: "#ccc",
+              borderStyle: "solid",
+              borderWidth: 1,
+              borderRadius: 5
+            }}
+          >
+            Created By {this.findWhoPaid(this.findGroup().CreatedBy)}
+          </Text>
           {this.renderTrans()}
         </Content>
         <Fab

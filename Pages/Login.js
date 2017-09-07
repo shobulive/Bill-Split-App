@@ -83,6 +83,7 @@ export default class Login extends Component {
                   this.setState({ error: false });
                   LoginAction(currentUser);
                   navigate("Dashboard");
+                  setTimeout(() => this.setState({ isLoading: false }), 2000);
                 } else {
                   this.setState({ isLoading: false });
                   this.setState({ error: true });
