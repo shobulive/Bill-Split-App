@@ -2,28 +2,32 @@ import React, { Component } from "react";
 import {
   Header,
   Button,
-  Icon,
   Title,
   Left,
   Right,
   Body,
-  Thumbnail
+  Thumbnail,
+  Icon
 } from "native-base";
 
 class HeaderCommon extends Component {
   render() {
     return (
-      <Header
-        button
-        onPress={this.props.onPress ? this.props.onPress : () => {}}
-        style={{ backgroundColor: this.props.backgroundColor }}
-      >
-        <Body>
-          <Title>{this.props.title}</Title>
+      <Header style={{ backgroundColor: "#fff" }}>
+        <Left>
+          <Button transparent onPress={this.props.onPress}>
+            <Icon active name="ios-arrow-back" />
+          </Button>
+        </Left>
+        <Body style={{ marginLeft: "-20%" }}>
+          <Title style={{ alignSelf: "flex-start" }}>{this.props.title}</Title>
         </Body>
         <Right>
           <Thumbnail
-            style={{ backfaceVisibility: this.props.visibility }}
+            style={{
+              backfaceVisibility: this.props.visibility,
+              marginTop: "-10%"
+            }}
             source={{ uri: this.props.imageUri }}
           />
         </Right>

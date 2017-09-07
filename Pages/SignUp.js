@@ -18,12 +18,14 @@ const Header = require("../componentsCommon/Header");
 import * as firebase from "firebase";
 import { connect } from "react-redux";
 import SignUpForm from "../componentsCommon/SignUpForm";
+import Expo from "expo";
 @connect(store => {
   return { newUser: store.form.SignUpForm };
 })
 export default class SignUp extends Component {
   static navigationOptions = {
-    title: "SignUp"
+    title: "SignUp",
+    header: null
   };
   constructor(props) {
     super(props);
@@ -51,7 +53,15 @@ export default class SignUp extends Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <Container>
+      <Container style={{ flex: 1, marginTop: Expo.Constants.statusBarHeight }}>
+        <Header
+          visibility="hidden"
+          title="SignUp"
+          imageUri="../img/GroupIcon.png"
+          onPress={() => {
+            this.props.navigation.dispatch(NavigationActions.back());
+          }}
+        />
         <Content padder style={{ backgroundColor: "white" }}>
           <Form>
             <SignUpForm />
@@ -81,7 +91,6 @@ export default class SignUp extends Component {
             </Button>
           </Form>
         </Content>
-        <Footer />
       </Container>
     );
   }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StackNavigator, NavigationActions } from "react-navigation";
-import { Image, View } from "react-native";
+import { Image, View, ScrollView } from "react-native";
 import fetchUsers from "../Actions/FetchUsers";
 import {
   Container,
@@ -24,6 +24,7 @@ import * as firebase from "firebase";
 const Header = require("../componentsCommon/Header");
 import fetchTransaction from "../Actions/FetchTransactions";
 import store from "../store";
+import Expo from "expo";
 let MembersInvoled = [];
 let AllMember = [];
 let payer;
@@ -144,6 +145,7 @@ export default class AddTransaction extends React.PureComponent {
     }
     return (
       <List
+        scrollEnabled={false}
         dataArray={Members}
         renderRow={item => (
           <ListItem button onPress={this.x.bind(this, item, Members)}>
@@ -161,6 +163,7 @@ export default class AddTransaction extends React.PureComponent {
   renderChoosePayer() {
     return (
       <List
+        scrollEnabled={false}
         dataArray={AllMember}
         renderRow={item => (
           <ListItem button onPress={this.y.bind(this, item)}>
@@ -181,32 +184,49 @@ export default class AddTransaction extends React.PureComponent {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <Container padder style={{ flex: 1, backgroundColor: "white" }}>
-        <Form style={{ flex: 6 }}>
-          <Item floatingLabel>
-            <Icon active name="chatboxes" />
-            <Label>For</Label>
-            <Input
-              onChange={event => {
-                this.For = event.nativeEvent.text;
-              }}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Icon active name="chatboxes" />
-            <Label>Amt</Label>
-            <Input
-              onChange={event => {
-                this.Amt = event.nativeEvent.text;
-              }}
-              keyboardType="numeric"
-            />
-          </Item>
-          <Label>Who Attended The Event?</Label>
-          {this.renderChooseMembers()}
-          <Label>Who Paid?</Label>
-          {this.renderChoosePayer()}
-        </Form>
+      <Container
+        padder
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          marginTop: Expo.Constants.statusBarHeight
+        }}
+      >
+        <Header
+          visibility="hidden"
+          title="Add Transaction"
+          imageUri="../img/GroupIcon.png"
+          onPress={() => {
+            this.props.navigation.dispatch(NavigationActions.back());
+          }}
+        />
+        <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+          <Form style={{ flex: 6 }}>
+            <Item floatingLabel>
+              <Icon active name="chatboxes" />
+              <Input
+                onChange={event => {
+                  this.For = event.nativeEvent.text;
+                }}
+                placeholder="For"
+              />
+            </Item>
+            <Item floatingLabel>
+              <Icon active name="chatboxes" />
+              <Input
+                onChange={event => {
+                  this.Amt = event.nativeEvent.text;
+                }}
+                keyboardType="numeric"
+                placeholder="Amt"
+              />
+            </Item>
+            <Label>Who Attended The Event?</Label>
+            {this.renderChooseMembers()}
+            <Label>Who Paid?</Label>
+            {this.renderChoosePayer()}
+          </Form>
+        </ScrollView>
         <Button full danger onPress={this.handleSubmit.bind(this)}>
           {this.state.isSubmitting ? (
             <Spinner color="white" style={{ width: 50, height: 30 }} />
@@ -215,7 +235,9 @@ export default class AddTransaction extends React.PureComponent {
           )}
         </Button>
         <Footer
-          style={{ flex: 1, display: this.state.isSelected ? "flex" : "none" }}
+          style={{
+            display: this.state.isSelected ? "flex" : "none"
+          }}
         >
           <Body>
             <Text>Involved</Text>

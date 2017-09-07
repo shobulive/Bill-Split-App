@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { StackNavigator, NavigationActions } from "react-navigation";
 import { Image, View, FlatList } from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
@@ -267,13 +267,15 @@ export default class Login extends Component {
           </View>
         </Modal>
         <Header
-          backgroundColor="white"
           title={this.findGroupName()}
           imageUri={
             "https://api.adorable.io/avatars/285/abott@adorable." +
             this.findGroupName()
           }
           visibility="visible"
+          onPress={() => {
+            this.props.navigation.dispatch(NavigationActions.back());
+          }}
         />
         <Content padder style={{ backgroundColor: "white" }}>
           <Text

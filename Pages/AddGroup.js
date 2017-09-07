@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import * as firebase from "firebase";
 import fetchGroups from "../Actions/GetGroupsForUser";
 import store from "../store";
+const Header = require("../componentsCommon/Header");
 let MembersInvoled = [];
 let fields = [];
 let n = 1;
@@ -85,7 +86,22 @@ export default class AddGroup extends React.PureComponent {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <Container>
+      <Container
+        padder
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          marginTop: Expo.Constants.statusBarHeight
+        }}
+      >
+        <Header
+          visibility="hidden"
+          title="Add Group"
+          imageUri="../img/GroupIcon.png"
+          onPress={() => {
+            this.props.navigation.dispatch(NavigationActions.back());
+          }}
+        />
         <Content padder style={{ backgroundColor: "white" }}>
           <Form>
             <Item floatingLabel>
