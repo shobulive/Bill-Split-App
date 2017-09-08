@@ -62,25 +62,21 @@ export default class Dashboard extends Component {
     this.state = {
       hasToReload: false,
       scrollY: new Animated.Value(0),
-      modalVisible: false,
-      loadingImage: false
+      modalVisible: false
     };
-  }
-  async getImage() {
-    await fetch(
-      "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=SHubham"
-    )
-      .then(response => response.json())
-      .then(responseData => {
-        imageurl = responseData.data.image_url;
-      })
-      .done();
-    this.setState({ loadingImage: true });
   }
   getNameFromNumber(Number) {
     for (let i in this.props.Users) {
       if (this.props.Users[i].Phone === Number) return this.props.Users[i].Name;
     }
+  }
+  totalProfitOrLoss() {
+    let sum = 0;
+    for (let i = 0; i < final.length; i++) {
+      sum += final[i].value;
+    }
+    if (sum > 0) return true;
+    else return false;
   }
   getCurrentGroupInfo() {
     final = [];
@@ -213,18 +209,21 @@ export default class Dashboard extends Component {
     this.setState({ modalVisible: visible });
   }
   isProfit() {
-    if (this.props.CurrentUser.User.UpAmt > this.props.CurrentUser.User.DownAmt)
+    if (
+      parseInt(this.props.CurrentUser.User.UpAmt) >
+      parseInt(this.props.CurrentUser.User.DownAmt)
+    )
       return (
         <Text style={{ color: "green" }}>
-          &#x25B2;Rs.{(this.props.CurrentUser.User.UpAmt -
-            this.props.CurrentUser.User.DownAmt).toFixed(1)}
+          &#x25B2;Rs.{(parseInt(this.props.CurrentUser.User.UpAmt) -
+            parseInt(this.props.CurrentUser.User.DownAmt)).toFixed(1)}
         </Text>
       );
     else
       return (
         <Text style={{ color: "red" }}>
-          &#x25BC;Rs.{(this.props.CurrentUser.User.DownAmt -
-            this.props.CurrentUser.User.UpAmt).toFixed(1)}
+          &#x25BC;Rs.{(parseInt(this.props.CurrentUser.User.DownAmt) -
+            parseInt(this.props.CurrentUser.User.UpAmt)).toFixed(1)}
         </Text>
       );
   }
@@ -466,7 +465,7 @@ export default class Dashboard extends Component {
     });
     const HeaderCardMove = this.state.scrollY.interpolate({
       inputRange: [0, 130],
-      outputRange: ["-31%", "-98%"],
+      outputRange: ["-31%", "-89%"],
       extrapolate: "clamp"
     });
     const ImgMove = this.state.scrollY.interpolate({
@@ -536,26 +535,62 @@ export default class Dashboard extends Component {
                 flex: 5
               }}
             >
-              <List
-                dataArray={final}
-                renderRow={item => (
-                  <ListItem>
-                    <Text style={{ color: item.value < 0 ? "red" : "green" }}>
-                      {item.value < 0 ? (
-                        "You Owe Rs." +
-                        (item.value * -1).toFixed(1) +
-                        " to " +
-                        this.getNameFromNumber(item.key)
-                      ) : (
-                        "You Get Rs." +
-                        item.value.toFixed(1) +
-                        " from " +
-                        this.getNameFromNumber(item.key)
-                      )}
-                    </Text>
-                  </ListItem>
-                )}
-              />
+              <ScrollView>
+                <Image
+                  style={
+                    this.totalProfitOrLoss() ? (
+                      {
+                        alignSelf: "center"
+                      }
+                    ) : (
+                      {
+                        height: 100,
+                        width: 100,
+                        alignSelf: "center"
+                      }
+                    )
+                  }
+                  source={
+                    this.totalProfitOrLoss() ? (
+                      require("../img/GroupProfit.gif")
+                    ) : (
+                      require("../img/GroupLoss.jpg")
+                    )
+                  }
+                />
+                <List
+                  style={{ borderBottomWidth: 0 }}
+                  scrollEnabled={false}
+                  dataArray={final}
+                  renderRow={item => (
+                    <ListItem
+                      style={{
+                        borderBottomWidth: 0,
+                        alignSelf: "center"
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: item.value < 0 ? "red" : "green",
+                          alignSelf: "center"
+                        }}
+                      >
+                        {item.value < 0 ? (
+                          "You Owe Rs." +
+                          (item.value * -1).toFixed(1) +
+                          " to " +
+                          this.getNameFromNumber(item.key)
+                        ) : (
+                          "You Get Rs." +
+                          item.value.toFixed(1) +
+                          " from " +
+                          this.getNameFromNumber(item.key)
+                        )}
+                      </Text>
+                    </ListItem>
+                  )}
+                />
+              </ScrollView>
             </View>
           </View>
         </Modal>
@@ -615,7 +650,9 @@ export default class Dashboard extends Component {
                             opacity: opacity
                           }}
                         >
-                          &#x25BC;Rs.{this.props.CurrentUser.User.DownAmt}
+                          &#x25BC;Rs.{parseInt(
+                            this.props.CurrentUser.User.DownAmt
+                          )}
                         </Animated.Text>
                       </Left>
                       <Right>
@@ -628,7 +665,9 @@ export default class Dashboard extends Component {
                             opacity: opacity
                           }}
                         >
-                          &#x25B2;Rs.{this.props.CurrentUser.User.UpAmt}
+                          &#x25B2;Rs.{parseInt(
+                            this.props.CurrentUser.User.UpAmt
+                          ).toFixed(1)}
                         </Animated.Text>
                       </Right>
                     </View>

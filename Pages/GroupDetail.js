@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StackNavigator, NavigationActions } from "react-navigation";
-import { Image, View, FlatList } from "react-native";
+import { Image, View, FlatList, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import PieChart from "react-native-pie-chart";
@@ -75,19 +75,41 @@ export default class Login extends Component {
       1
     );
     return (
-      <List
-        scrollEnabled={false}
-        dataArray={tempMembers}
-        renderRow={item => (
-          <ListItem>
-            <Text note>
-              Rs.{(currentItem.value.Amt /
-                currentItem.value.Members.length).toFixed(1)}{" "}
-              from {this.findWhoPaid(item)}
-            </Text>
-          </ListItem>
-        )}
-      />
+      <View>
+        <List
+          scrollEnabled={false}
+          dataArray={tempMembers}
+          renderRow={item => (
+            <ListItem
+              style={{
+                padding: 0,
+                margin: 0,
+                borderBottomWidth: 0,
+                alignSelf: "center"
+              }}
+            >
+              <Text
+                style={{
+                  color: "green",
+                  alignSelf: "center"
+                }}
+              >
+                You Get Rs.{(currentItem.value.Amt /
+                  currentItem.value.Members.length).toFixed(1)}{" "}
+                from {this.findWhoPaid(item)}
+              </Text>
+            </ListItem>
+          )}
+        />
+        <Image
+          style={{
+            width: 100,
+            height: 120,
+            alignSelf: "center"
+          }}
+          source={require("../img/GetMoney.jpg")}
+        />
+      </View>
     );
   }
   findWhoPaid(PaidBy) {
@@ -224,45 +246,53 @@ export default class Login extends Component {
                   </Button>
                 </Right>
               </View>
-              <View style={{ flex: 3, marginLeft: "15%", marginTop: "5%" }}>
-                {currentItem ? (
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+              <ScrollView>
+                <View style={{ flex: 3, marginTop: "5%" }}>
+                  {currentItem ? (
                     <View style={{ flex: 1, flexDirection: "column" }}>
-                      <Text style={{ color: "red" }}>You Owe</Text>
-                      {currentItem.value.PaidBy ==
-                      this.props.CurrentUser.User.Phone ? (
-                        <Text>Nil</Text>
-                      ) : (
-                        <View>
-                          <Text>
-                            Rs.{(currentItem.value.Amt /
-                              currentItem.value.Members.length).toFixed(1)}{" "}
-                            to {this.findWhoPaid(currentItem.value.PaidBy)}
+                      <View>
+                        {currentItem.value.PaidBy ==
+                        this.props.CurrentUser.User.Phone ? (
+                          <Text style={{ color: "red", alignSelf: "center" }}>
+                            You Owe Nothing !!
                           </Text>
-                        </View>
-                      )}
+                        ) : (
+                          <View>
+                            <Text style={{ color: "red", alignSelf: "center" }}>
+                              {"You Owe "}
+                              {" Rs." +
+                                (currentItem.value.Amt /
+                                  currentItem.value.Members.length).toFixed(1) +
+                                " to " +
+                                this.findWhoPaid(currentItem.value.PaidBy)}
+                            </Text>
+                            <Image
+                              style={{
+                                width: 100,
+                                height: 120,
+                                alignSelf: "center"
+                              }}
+                              source={require("../img/PayDay.png")}
+                            />
+                          </View>
+                        )}
+                      </View>
+                      <View>
+                        {currentItem.value.PaidBy ==
+                        this.props.CurrentUser.User.Phone ? (
+                          this.RecieveFrom(currentItem)
+                        ) : (
+                          <Text style={{ color: "green", alignSelf: "center" }}>
+                            You Get Nothing!!!
+                          </Text>
+                        )}
+                      </View>
                     </View>
-                    <View style={{ flex: 1, flexDirection: "column" }}>
-                      <Text style={{ color: "green" }}>You Get</Text>
-                      {currentItem.value.PaidBy ==
-                      this.props.CurrentUser.User.Phone ? (
-                        <View
-                          style={{
-                            flex: 1,
-                            flexDirection: "column"
-                          }}
-                        >
-                          {this.RecieveFrom(currentItem)}
-                        </View>
-                      ) : (
-                        <Text>Nil</Text>
-                      )}
-                    </View>
-                  </View>
-                ) : (
-                  ""
-                )}
-              </View>
+                  ) : (
+                    ""
+                  )}
+                </View>
+              </ScrollView>
             </View>
           </View>
         </Modal>
