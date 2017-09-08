@@ -220,12 +220,13 @@ export default class Dashboard extends Component {
             this.props.CurrentUser.User.DownAmt).toFixed(1)}
         </Text>
       );
-    return (
-      <Text style={{ color: "red" }}>
-        &#x25BC;Rs.{(this.props.CurrentUser.User.DownAmt -
-          this.props.CurrentUser.User.UpAmt).toFixed(1)}
-      </Text>
-    );
+    else
+      return (
+        <Text style={{ color: "red" }}>
+          &#x25BC;Rs.{(this.props.CurrentUser.User.DownAmt -
+            this.props.CurrentUser.User.UpAmt).toFixed(1)}
+        </Text>
+      );
   }
   renderGroups() {
     groups = [];
@@ -294,7 +295,21 @@ export default class Dashboard extends Component {
                                     .remove();
                                 }
                             }
-
+                            let thisGroupTrans = [];
+                            currentGroup = item;
+                            for (
+                              let i = 0;
+                              i < fetchedTransactions.length;
+                              i++
+                            ) {
+                              if (fetchedTransactions[i]) {
+                                if (
+                                  fetchedTransactions[i].GID == currentGroup.key
+                                ) {
+                                  thisGroupTrans.push(fetchedTransactions[i]);
+                                }
+                              }
+                            }
                             let users = Object.values(this.props.Users);
                             let userskeys = Object.keys(this.props.Users);
                             let toBechangedUserKeys = [];
@@ -317,48 +332,48 @@ export default class Dashboard extends Component {
                             ) {
                               for (let j = 0; j < userskeys.length; j++) {
                                 if (userskeys[j]) {
-                                  currentGroup = item;
-                                  this.getCurrentGroupInfo();
                                   if (userskeys[j] == toBechangedUserKeys[i]) {
-                                    for (let k = 0; k < final.length; k++) {
-                                      if (users[j].Phone == final[k].key) {
-                                        if (final[k].value > 0) {
-                                          users[j].DownAmt = parseInt(
-                                            users[j].DownAmt
-                                          );
-                                          users[j].DownAmt -= final[k].value;
-                                        } else {
-                                          users[j].DownAmt = parseInt(
-                                            users[j].DownAmt
-                                          );
-                                          users[j].UpAmt += final[k].value;
-                                        }
-                                        await firebase
-                                          .database()
-                                          .ref()
-                                          .child("Main")
-                                          .child("Users")
-                                          .child(userskeys[j])
-                                          .update(users[j]);
+                                    for (
+                                      let k = 0;
+                                      k < thisGroupTrans.length;
+                                      k++
+                                    ) {
+                                      if (
+                                        users[j].Phone ==
+                                        thisGroupTrans[k].PaidBy
+                                      ) {
+                                        users[j].UpAmt = parseInt(
+                                          users[j].UpAmt
+                                        );
+                                        users[j].UpAmt -=
+                                          thisGroupTrans[k].Amt /
+                                          thisGroupTrans[k].Members.length *
+                                          (thisGroupTrans[k].Members.length -
+                                            1);
+                                        users[j].UpAmt = users[j].UpAmt.toFixed(
+                                          1
+                                        );
+                                      } else {
+                                        users[j].DownAmt = parseInt(
+                                          users[j].DownAmt
+                                        );
+                                        users[j].DownAmt -=
+                                          thisGroupTrans[k].Amt /
+                                          thisGroupTrans[k].Members.length;
+                                        users[j].DownAmt = users[
+                                          j
+                                        ].DownAmt.toFixed(1);
                                       }
+                                      await firebase
+                                        .database()
+                                        .ref()
+                                        .child("Main")
+                                        .child("Users")
+                                        .child(userskeys[j])
+                                        .update(users[j]);
                                     }
                                   }
                                 }
-                              }
-                            }
-                            for (let i = 0; i < final.length; i++) {
-                              if (final[i].value < 0) {
-                                this.props.CurrentUser.User.DownAmt = parseInt(
-                                  this.props.CurrentUser.User.DownAmt
-                                );
-                                this.props.CurrentUser.User.DownAmt +=
-                                  final[i].value;
-                              } else {
-                                this.props.CurrentUser.User.UpAmt = parseInt(
-                                  this.props.CurrentUser.User.UpAmt
-                                );
-                                this.props.CurrentUser.User.UpAmt -=
-                                  final[i].value;
                               }
                             }
                             let CurrentUserKey;
@@ -370,15 +385,12 @@ export default class Dashboard extends Component {
                                 CurrentUserKey = userskeys[z];
                               }
                             }
-                            await firebase
-                              .database()
-                              .ref()
-                              .child("Main")
-                              .child("Users")
-                              .child(CurrentUserKey)
-                              .update(this.props.CurrentUser.User);
+                            LoginAction(
+                              users[userskeys.indexOf(CurrentUserKey)]
+                            );
                           }
                         }
+
                         fetchTransaction(store.dispatch);
                         fetchGroups(store.dispatch);
                         fetchUsers(store.dispatch);

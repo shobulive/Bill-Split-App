@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StackNavigator, NavigationActions } from "react-navigation";
 import { Image, View, ScrollView } from "react-native";
 import fetchUsers from "../Actions/FetchUsers";
+import LoginAction from "../Actions/LoginAction";
 import {
   Container,
   Button,
