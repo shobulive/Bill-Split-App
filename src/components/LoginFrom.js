@@ -72,8 +72,12 @@ class LoginForm extends Component {
       hasError = true;
     }
     return (
-      <Item inlineLabel style={{ margin: 10 }} error={hasError}>
-        <Icon style={{ color: "white" }} active name={icon} />
+      <Item
+        rounded
+        style={{ margin: 20, width: "100%", backgroundColor: "white" }}
+        error={hasError}
+      >
+        <Icon style={{ color: "black", marginLeft: 5 }} active name={icon} />
         <Input
           {...input}
           placeholder={currlabel}
@@ -81,10 +85,14 @@ class LoginForm extends Component {
           onFocus={() => {
             isFocused = true;
           }}
-          style={{ color: "white" }}
-          placeholderTextColor="white"
+          style={{ color: "black" }}
+          placeholderTextColor="black"
         />
-        {hasError ? <Text style={{ color: "yellow" }}>{error}</Text> : <Text />}
+        {hasError ? (
+          <Text style={{ color: "red", marginRight: 5 }}>{error}</Text>
+        ) : (
+          <Text />
+        )}
       </Item>
     );
   }

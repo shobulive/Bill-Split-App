@@ -37,32 +37,32 @@ class Dashboard extends Component {
   }
   render() {
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 87],
+      inputRange: [0, 132],
       outputRange: ["30%", "9%"],
       extrapolate: "clamp"
     });
     const hw = this.state.scrollY.interpolate({
-      inputRange: [0, 100],
+      inputRange: [0, 140],
       outputRange: [80, 55],
       extrapolate: "clamp"
     });
     const iRadius = this.state.scrollY.interpolate({
-      inputRange: [0, 100],
-      outputRange: [50, 35],
+      inputRange: [0, 40],
+      outputRange: [40, 30],
       extrapolate: "clamp"
     });
     const HeaderCardMove = this.state.scrollY.interpolate({
-      inputRange: [0, 130],
+      inputRange: [0, 128],
       outputRange: ["0%", "-32%"],
       extrapolate: "clamp"
     });
     const ImgMove = this.state.scrollY.interpolate({
-      inputRange: [0, 50],
+      inputRange: [0, 60],
       outputRange: ["70%", "85%"],
       extrapolate: "clamp"
     });
     const ImgMoveVert = this.state.scrollY.interpolate({
-      inputRange: [0, 10],
+      inputRange: [0, 60],
       outputRange: ["1%", ".3%"],
       extrapolate: "clamp"
     });
@@ -209,7 +209,6 @@ class Dashboard extends Component {
   }
 }
 function mapStateToProps(state) {
-  console.log(state);
   return {
     CurrentUser: state.currentUser.CurrentUser,
     Users: state.fetchUser.users,

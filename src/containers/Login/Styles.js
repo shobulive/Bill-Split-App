@@ -14,6 +14,13 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: "center"
   },
+  submitButton: {
+    borderRadius: 50,
+    backgroundColor: "#D12030",
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: "#ccc"
+  },
   textCommon: {
     alignSelf: "center",
     color: "#ccc"

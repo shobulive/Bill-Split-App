@@ -55,7 +55,7 @@ function renderTrans(
                     source={{
                       uri:
                         "https://api.adorable.io/avatars/100/abott@adorable." +
-                        item.value.For
+                        item.value.Amt
                     }}
                   />
                   <Body>

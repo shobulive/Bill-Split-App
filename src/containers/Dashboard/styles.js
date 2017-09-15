@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   textFont: {
-    fontSize: 26
+    fontSize: 26,
+    marginLeft: "-5%"
   }
 });
 export default styles;

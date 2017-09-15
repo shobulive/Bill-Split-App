@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { StackNavigator, NavigationActions } from "react-navigation";
 import { Image, StyleSheet } from "react-native";
 import { Container, Button, Content, Text, Spinner } from "native-base";
 import { connect } from "react-redux";
@@ -72,19 +72,26 @@ class Login extends Component {
             <LoginForm />
             <Button
               full
-              light
               onPress={() => {
                 if (this.isValidate()) {
                   this.setState({ isLoading: true });
                   this.setState({ error: false });
                   this.props.LoginAction(currentUser);
-                  navigate("Dashboard");
-                  setTimeout(() => this.setState({ isLoading: false }), 2000);
+                  this.props.navigation.dispatch(
+                    NavigationActions.reset({
+                      index: 0,
+                      actions: [
+                        NavigationActions.navigate({ routeName: "Dashboard" })
+                      ]
+                    })
+                  );
+                  this.setState({ isLoading: false });
                 } else {
                   this.setState({ isLoading: false });
                   this.setState({ error: true });
                 }
               }}
+              style={styles.submitButton}
             >
               {this.state.isLoading ? (
                 <Spinner color="white" />

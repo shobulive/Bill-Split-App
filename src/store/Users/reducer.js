@@ -8,7 +8,6 @@ const initialState = {
   data: null
 };
 export default function UsersReducer(state = initialState, action) {
-  console.log(action, "action");
   switch (action.type) {
     case "FETCH_USERS_START":
       return { ...state, fetching: true, data: action.data };
