@@ -33,6 +33,9 @@ async function handleSubmit(
       .splice(1, 4)
       .join(" ")
   };
+  await new API().UpdateGroupsByObjectAndKey(Transaction.GID, {
+    LastUpdateTime: Transaction.DateTime
+  });
   let users = Object.values(Users);
   let userskeys = Object.keys(Users);
   await new API().AddTransaction(Transaction);

@@ -57,6 +57,15 @@ const API = class API {
       .child(key)
       .update(User);
   }
+  UpdateGroupsByObjectAndKey(key, Update) {
+    firebase
+      .database()
+      .ref()
+      .child("Main")
+      .child("Groups")
+      .child(key)
+      .update(Update);
+  }
   AddGroup(newGroup) {
     debugger;
     firebase
