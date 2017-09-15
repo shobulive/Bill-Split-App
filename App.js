@@ -1,13 +1,15 @@
+import FirebaseConfigJS from "./src/services/FirebaseConfig";
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
-import { Root } from "native-base";
-import Login from "./Pages/Login";
-import SignUp from "./Pages/SignUp";
 import { Provider } from "react-redux";
-import Dashboard from "./Pages/Dashboard";
-import AddGroup from "./Pages/AddGroup";
-import GroupDetail from "./Pages/GroupDetail";
-import AddTranscation from "./Pages/AddTransaction";
+import { Root } from "native-base";
+import Login from "./src/containers/Login/index";
+import SignUp from "./src/containers/SignUp/index";
+import Dashboard from "./src/containers/Dashboard/index";
+import AddGroup from "./src/containers/AddGroup/index";
+import GroupDetail from "./src/containers/GroupDetail/index";
+import AddTranscation from "./src/containers/AddTransaction/index";
+FirebaseConfigJS();
 const App = StackNavigator(
   {
     Home: { screen: Login },
@@ -21,7 +23,7 @@ const App = StackNavigator(
 );
 export default () => (
   <Root>
-    <Provider store={require("./store")}>
+    <Provider store={require("./src/store/store")}>
       <App />
     </Provider>
   </Root>

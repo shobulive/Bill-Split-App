@@ -15,7 +15,8 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "eject-native-base": "node node_modules/native-base/ejectTheme.js"
   },
   "jest": {
     "preset": "jest-expo"
@@ -26,8 +27,8 @@
     "firebase": "^4.3.0",
     "native-base": "^2.3.1",
     "radio-button-react-native": "^1.1.6",
-    "react": "16.0.0-alpha.12",
-    "react-native": "^0.47.0",
+    "react": "^16.0.0-alpha.12",
+    "react-native": "^0.47.1",
     "react-native-blink-view": "0.0.2",
     "react-native-checkbox": "^1.2.0",
     "react-native-clean-form": "^0.4.2",
@@ -36,11 +37,12 @@
     "react-native-pie-chart": "^1.0.12",
     "react-native-smart-splash-screen": "^2.3.5",
     "react-native-swipeable": "^0.6.0",
-    "react-native-vector-icons": "^4.3.0",
+    "react-native-vector-icons": "^4.1.1",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.0",
-    "redux-form": "^7.0.3"
+    "redux-form": "^7.0.3",
+    "redux-thunk": "^2.2.0"
   }
 }
