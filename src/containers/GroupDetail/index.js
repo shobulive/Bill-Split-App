@@ -77,7 +77,8 @@ class GroupDetail extends Component {
           <Text note style={styles.createdBy}>
             Created By{" "}
             {findWhoPaid(
-              findGroup(this.props.Groups, this.props.CurrentGroup).CreatedBy
+              findGroup(this.props.Groups, this.props.CurrentGroup).CreatedBy,
+              this.props.Users
             )}
           </Text>
           {renderTrans(

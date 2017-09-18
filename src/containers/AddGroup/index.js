@@ -119,7 +119,7 @@ class AddGroup extends React.PureComponent {
         </Content>
         <Fab
           style={styles.fab}
-          onPress={addField.bind(this, fields, n++, MembersInvoled)}
+          onPress={addField.bind(this, fields, n++, MembersInvoled, true)}
         >
           <Text style={{ fontSize: 26 }}>+</Text>
         </Fab>

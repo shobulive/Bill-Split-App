@@ -13,18 +13,18 @@ async function AddGroupLogic(
   lastUpdate,
   createdBy
 ) {
-  onLoading(mythis, true);
   let newMembersArr = [];
   newMembersArr.push(User.Phone);
   for (let i = 0; i < MembersInvoled.length; i++) {
-    if (MembersInvoled[i]) {
+    if (MembersInvoled[i] && !newMembersArr.includes(MembersInvoled[i])) {
       newMembersArr.push(parseInt(MembersInvoled[i]));
-    } else {
+    } else if (!MembersInvoled[i] || MembersInvoled[i].length != 10) {
       MembersInvoled.splice(i, 1);
       i = 0;
     }
   }
   if (name !== "" && description !== "" && newMembersArr.length > 1) {
+    onLoading(mythis, true);
     let newGroup = {
       Name: name,
       CreateTime: creationDate,

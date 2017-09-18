@@ -1,8 +1,10 @@
 import { View } from "react-native";
 import { Button, Icon, Text, Item, Input } from "native-base";
 import React, { Component } from "react";
-function addField(fields, n, MembersInvoled) {
-  debugger;
+function addField(fields, n, MembersInvoled, firstTime) {
+  let x = 0;
+
+  if (n == 1) MembersInvoled.length = 0;
   fields.push(
     <View style={{ flex: 1, flexDirection: "row" }}>
       <Item floatingLabel style={{ flex: 5 }}>
@@ -12,11 +14,13 @@ function addField(fields, n, MembersInvoled) {
           key={n}
           placeholder={"Please Input the Phone Number Required"}
           button
-          onFocus={() => {
-            MembersInvoled.push("");
+          onBlur={() => {
+            if (x.length == 10 && !MembersInvoled.includes(x))
+              MembersInvoled.push(x);
+            console.log(MembersInvoled);
           }}
           onChange={((n, event) => {
-            MembersInvoled[n] = event.nativeEvent.text;
+            x = event.nativeEvent.text;
           }).bind(this, n)}
         />
       </Item>
@@ -24,7 +28,6 @@ function addField(fields, n, MembersInvoled) {
         <Button
           danger
           onPress={n => {
-            debugger;
             MembersInvoled.splice(n, 1);
             this.setState({ n: fields.splice(n, 1) });
           }}

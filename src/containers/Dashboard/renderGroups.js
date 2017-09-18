@@ -15,6 +15,15 @@ import {
 } from "native-base";
 import DeleteButtonPress from "./DeleteButtonPress";
 import getCurrentGroupInfo from "./GroupInfo";
+function wait(ms, cb) {
+  var waitDateOne = new Date();
+  while (new Date() - waitDateOne <= ms) {
+    //Nothing
+  }
+  if (cb) {
+    eval(cb);
+  }
+}
 function renderGroups(
   groups,
   Groups,
@@ -36,6 +45,7 @@ function renderGroups(
   if (Groups.groups) {
     let fetchedGroups = Object.values(Groups.groups);
     let fetchedGroupsKey = Object.keys(Groups.groups);
+    let CurrentUserKey;
     for (let group in fetchedGroups) {
       if (fetchedGroups[group]) {
         let MemberID = Object.values(fetchedGroups[group].Members);

@@ -62,15 +62,7 @@ async function DeleteButtonPress(
         }
       }
     }
-    let CurrentUserKey;
-    for (let z = 0; z < users.length; z++) {
-      if (users[z].Phone == User.Phone) {
-        CurrentUserKey = userskeys[z];
-      }
-    }
-    LoginAction(users[userskeys.indexOf(CurrentUserKey)]);
   }
-  debugger;
   fetchTransaction();
   fetchGroups();
   fetchUsers();
