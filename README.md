@@ -1,10 +1,14 @@
 #Bill Split App 
+
 A Simple Application Created using **_React-Native_** and **_Redux_** for splitting up expenses among your groups and event attendees. This app uses **_Firebase_** for backend
 It is bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
-##Preview 
+
+##Preview
+
 ![]("./screenshot/FinalPreview.gif)
 
 ## Dependencies
+
  * React Native
  * Redux
  * React Navigation
@@ -13,6 +17,7 @@ It is bootstrapped with [Create React Native App](https://github.com/react-commu
  * Firebase for Backend
 
 ## Getting Started
+
 **1. Clone the Repo**
 On the command prompt run the following commands
 
@@ -40,5 +45,6 @@ Run the following command
 >$ npm run android
 
 ##Credits
+
 [NativeBase](https://nativebase.io/)
 [Akshay Mathur](http://git.geekyants.com/akshaym)
