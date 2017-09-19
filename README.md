@@ -38,6 +38,7 @@ Run the following command
 Run the following command
 
 >$ npm run ios
+
 **To run on android emulator/device**
 
 Run the following command
