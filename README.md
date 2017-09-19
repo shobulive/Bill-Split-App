@@ -5,7 +5,7 @@ It is bootstrapped with [Create React Native App](https://github.com/react-commu
 
 ## Preview
 
-![]("./screenshot/FinalPreview.gif)
+![Preview]("./screenshot/FinalPreview.gif)
 
 ## Dependencies
 
