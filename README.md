@@ -2,7 +2,7 @@
 A Simple Application Created using **_React-Native_** and **_Redux_** for splitting up expenses among your groups and event attendees. This app uses **_Firebase_** for backend
 It is bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 ##Preview 
-![ScreenShot]("./screenshot/FinalPreview.gif)
+![]("./screenshot/FinalPreview.gif)
 
 ## Dependencies
  * React Native
