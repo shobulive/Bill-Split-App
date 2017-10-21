@@ -9,13 +9,17 @@ It is bootstrapped with [Create React Native App](https://github.com/react-commu
 
 ## Preview on Expo
 
-![Preview](screenshot/download.png)
+
 
 ## Scan with Expo
 
 You check this app on https://expo.io/@shubham56/myapp.
+
 OR
+
 Scanning this QR code with your Expo mobile app loads this experience immediately.
+
+![Preview](screenshot/download.png)
 
 OR
 
