@@ -19,7 +19,7 @@ Scanning this QR code with your Expo mobile app loads this experience immediatel
 
 OR
 
-##Type the address
+## Type the address
 
 Typing 
 
