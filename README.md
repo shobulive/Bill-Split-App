@@ -7,6 +7,31 @@ It is bootstrapped with [Create React Native App](https://github.com/react-commu
 
 ![Preview](screenshot/FinalPreview.gif)
 
+## Preview on Expo
+
+## Scan with Expo
+
+You check this app on https://expo.io/@shubham56/myapp.
+OR
+Scanning this QR code with your Expo mobile app loads this experience immediately.
+
+[Preview](screenshot/download.png)
+
+OR
+
+##Type the address
+
+Typing 
+
+>exp://exp.host/@shubham56/myapp
+
+inside of Expo will also open this experience.
+
+## Need Expo?
+
+With Expo you can build, share and enjoy many mobile experiences. Download the app to try Bill-Split-App today. For links to install the Expo app, please visit https://expo.io.
+
+
 ## Dependencies
 
  * React Native
@@ -19,11 +44,11 @@ It is bootstrapped with [Create React Native App](https://github.com/react-commu
 ## Getting Started
 
 **1. Clone the Repo**
-On the command prompt run the following commands
+On the terminal run the following commands
 
->$ git clone http://shubham@git.geekyants.com/shubham/Walnut_Clone_Proj.git
+>$ git clone https://github.com/shubham56/Bill-Split-App.git
 
->$ cd Walnut_Clone_Proj
+>$ cd Bill-Split-App
 
 >$ npm install
 
